@@ -73,26 +73,63 @@ struct isa_relocs_s {
     relocations. FIXME. Most will be unusable without
     additional effort as they have not been tested.
 */
+#ifndef	R_MIPS_32
 #define R_MIPS_32		2
+#endif
+#ifndef	R_MIPS_64
 #define R_MIPS_64		18
+#endif
+#ifndef R_MIPS_SCN_DISP
 #define R_MIPS_SCN_DISP		32
+#endif
+#ifndef	R_386_32
 #define R_386_32                 1
+#endif
+#ifndef	R_386_64
 #define R_386_64                 0  /* impossible */
+#endif
+#ifndef	R_X86_64_32
 #define R_X86_64_32             10
+#endif
+#ifndef R_X86_64_64
 #define R_X86_64_64              1
+#endif
+#ifndef	R_SPARC_UA32
 #define R_SPARC_UA32            23
+#endif
+#ifndef	R_SPARC_UA64
 #define R_SPARC_UA64            54
+#endif
+#ifndef	R_ARM_ABS32
 #define R_ARM_ABS32              2
+#endif
+#ifndef	R_ARM_ABS64
 #define R_ARM_ABS64              0 /* impossible */
+#endif
+#ifndef	R_AARCH64_ABS32
 #define R_AARCH64_ABS32        258
+#endif
+#ifndef	R_AARCH64_ABS64
 #define R_AARCH64_ABS64        257
+#endif
+#ifndef	R_IA64_DIR32LSB
 #define R_IA64_DIR32LSB       0x25
+#endif
+#ifndef	R_IA64_DIR64LSB
 #define R_IA64_DIR64LSB       0x27
+#endif
+#ifndef	R_PPC_REL32
 #define R_PPC_REL32             26
+#endif
+#ifndef	R_PPC_REL64
 #define R_PPC_REL64             44
+#endif
+#ifndef	R_PPC64_REL32
 #define R_PPC64_REL32         R_PPC_REL32
+#endif
+#ifndef	R_PPC64_REL64
 #define R_PPC64_REL64           44
-
+#endif
 
 static struct isa_relocs_s isa_relocs[] = {
 {"irix",  R_MIPS_32,R_MIPS_64,R_MIPS_SCN_DISP},
