@@ -60,7 +60,7 @@ extern "C" {
 
 */
 
-typedef struct Elf Elf;
+struct Elf;
 typedef struct Elf* dwarf_elf_handle;
 
 /* To enable printing with printf regardless of the
