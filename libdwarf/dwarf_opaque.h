@@ -330,6 +330,7 @@ struct Dwarf_Section_s {
         (such sections appear in some .o files). */
     Dwarf_Half     dss_reloc_index; /* Zero means ignore the reloc fields. */
     Dwarf_Small *  dss_reloc_data;
+    Dwarf_Unsigned dss_reloc_type;
     Dwarf_Unsigned dss_reloc_size;
     Dwarf_Unsigned dss_reloc_entrysize;
     Dwarf_Addr     dss_reloc_addr;

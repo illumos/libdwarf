@@ -223,12 +223,13 @@ get_basic_section_data(Dwarf_Debug dbg,
 
 
 static void
-add_rela_data_to_secdata( struct Dwarf_Section_s *secdata,
+add_reloc_data_to_secdata( struct Dwarf_Section_s *secdata,
     struct Dwarf_Obj_Access_Section_s *doas,
     Dwarf_Half section_index)
 {
     secdata->dss_reloc_index = section_index;
     secdata->dss_reloc_size = doas->size;
+    secdata->dss_reloc_type = doas->type;
     secdata->dss_reloc_entrysize = doas->entrysize;
     secdata->dss_reloc_addr = doas->addr;
     secdata->dss_reloc_symtab = doas->link;
@@ -749,12 +750,15 @@ is_section_name_known_already(Dwarf_Debug dbg, const char *scn_name)
     of the section name. So check the
     section name but test section type. */
 static int
-is_a_rela_section(const char *scn_name,int type)
+is_a_reloc_section(const char *scn_name,int type)
 {
     if(startswith(scn_name,".rela.")) {
         return TRUE;
     }
-    if (type == SHT_RELA) {
+    if(startswith(scn_name,".rel.")) {
+        return TRUE;
+    }
+    if (type == SHT_RELA || type == SHT_REL) {
         return TRUE;
     }
     return FALSE;
@@ -805,7 +809,7 @@ this_section_dwarf_relevant(const char *scn_name,int type)
     if(is_a_special_section_semi_dwarf(scn_name)) {
         return TRUE;
     }
-    if(is_a_rela_section(scn_name,type)) {
+    if(is_a_reloc_section(scn_name,type)) {
         return TRUE;
     }
     /*  All sorts of sections are of no interest: .text
@@ -1104,7 +1108,7 @@ determine_target_group(Dwarf_Unsigned section_count,
                 groupnumber = DW_GROUPNUMBER_BASE;
             }
         }
-        if (is_a_rela_section(scn_name,doas.type)) {
+        if (is_a_reloc_section(scn_name,doas.type)) {
             unsigned linkgroup = 0;
             res = _dwarf_section_get_target_group_from_map(dbg,
                 doas.info,
@@ -1291,7 +1295,7 @@ _dwarf_setup(Dwarf_Debug dbg, Dwarf_Error * error)
         if (!this_section_dwarf_relevant(scn_name,doas.type) ) {
             continue;
         }
-        if (!is_a_rela_section(scn_name,doas.type)
+        if (!is_a_reloc_section(scn_name,doas.type)
             && !is_a_special_section_semi_dwarf(scn_name)) {
             /*  We do these actions only for group-related
                 sections.  Do for  .debug_info etc,
@@ -1369,10 +1373,10 @@ _dwarf_setup(Dwarf_Debug dbg, Dwarf_Error * error)
                     of the section name. If the current section
                     is a RELA one and the 'sh_info'
                     refers to a debug section, add the relocation data. */
-                if (is_a_rela_section(scn_name,doas.type)) {
+                if (is_a_reloc_section(scn_name,doas.type)) {
                     if ( doas.info < section_count) {
                         if (sections[doas.info]) {
-                            add_rela_data_to_secdata(sections[doas.info],
+                            add_reloc_data_to_secdata(sections[doas.info],
                                 &doas,
                                 obj_section_index);
                         }
