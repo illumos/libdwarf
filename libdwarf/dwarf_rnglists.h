@@ -83,7 +83,6 @@ struct Dwarf_Rnglists_Context_s {
     Dwarf_Small    *rc_endaddr;
 };
 
-typedef struct Dwarf_Rnglists_Entry_s *Dwarf_Rnglists_Entry;
 struct Dwarf_Rnglists_Entry_s {
     unsigned       rle_entrylen;
     unsigned       rle_code;
